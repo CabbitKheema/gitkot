@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, AlertCircle } from 'lucide-react';
 import { FeedType } from '../lib/github';
+import { stringToTitle } from '../lib/string';
 
 const POPULAR_LANGUAGES = [
   'JavaScript',
@@ -26,6 +27,11 @@ const POPULAR_LANGUAGES = [
   'VimL',
   'Lua',
   'Perl',
+] as const;
+
+const FEED_TYPES = [
+  'random',
+  'new'
 ] as const;
 
 export type Language = (typeof POPULAR_LANGUAGES)[number] | null;
@@ -152,9 +158,15 @@ export function SettingsPopup(props: SettingsPopupProps) {
                   onChange={(e) => setSelectedFeedType(e.target.value as FeedType)}
                   className='w-full bg-black/20 text-white border border-white/10 rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-white/20 transition-all'
                 >
-                  <option value=''>Feed Type</option>
-                  <option value='new'>New</option>
-                  <option value='random'>Random</option>
+                  {FEED_TYPES.map((fType) => (
+                    <option
+                      style={{ backgroundColor: 'black', color: 'white' }}
+                      key={fType}
+                      value={fType}
+                    >
+                      {stringToTitle(fType)}
+                    </option>
+                  ))}
                 </select>
                 <div className='absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none'>
                   <svg
